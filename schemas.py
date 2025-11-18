@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 # Example schemas (replace with your own):
 
@@ -37,6 +37,26 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# Typing test schemas
+
+class TypingResult(BaseModel):
+    """
+    Typing results collection schema
+    Collection name: "typingresult"
+    """
+    session_id: Optional[str] = Field(None, description="Client-generated session id")
+    duration_seconds: int = Field(..., ge=1, le=600, description="Test duration in seconds")
+    wpm: float = Field(..., ge=0, description="Words per minute")
+    accuracy: float = Field(..., ge=0, le=100, description="Accuracy percentage 0-100")
+    characters_typed: int = Field(..., ge=0, description="Total characters typed")
+    words_typed: int = Field(..., ge=0, description="Total words typed")
+    errors: int = Field(..., ge=0, description="Number of incorrect keystrokes")
+    quote_length: int = Field(..., ge=0, description="Target text length in characters")
+    mode: str = Field("time", description="Test mode (time, words)")
+    language: str = Field("en", description="Language of the prompt")
+    device: Optional[str] = Field(None, description="Client device info")
+    browser: Optional[str] = Field(None, description="Client browser info")
 
 # Add your own schemas here:
 # --------------------------------------------------
